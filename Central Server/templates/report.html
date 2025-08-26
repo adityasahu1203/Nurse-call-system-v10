@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Intelligent Nurse Call System(iNCMS-R9) - Reports </h1>
+            <div class="menu-icon" onclick="toggleMenu()">
+                <img src="{{ url_for('static', filename='images/menu.png') }}" alt="Menu Icon">
+            </div>
+        </div>
+        <div id="menu-container" class="menu-container">
+            <div class="menu-content">
+                <div class="menu-header">
+                    <img src="{{ url_for('static', filename='images/user.jpeg') }}" alt="User Icon" class="user-icon">
+                    <span>Welcome, {{ username }}</span>
+                </div>
+                <hr>
+                <a href="{{ url_for('home') }}" class="menu-item">Home</a>
+                <a href="{{ url_for('report') }}" class="menu-item">Reports</a>
+                <a href="{{ url_for('status') }}" class="menu-item">Status</a>
+                <a href="{{ url_for('settings') }}" class="menu-item">Settings</a>
+                <a href="{{ url_for('about') }}" class="menu-item">About Us</a>
+                <hr>
+                <button id="logoutButton" class="logout-button" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h2>Reports Section</h2>
+        <p>This section shows reports based on data collected by the system.</p>
+
+        <!-- Search Form -->
+        <form id="searchForm">
+            <!-- Ward Dropdown -->
+            <label for="ward">Ward:</label>
+            <select id="ward" name="ward">
+                <option value="">Select Ward</option>
+                {% for ward in wards %}
+                    <option value="{{ ward }}">{{ ward }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Call Type Dropdown -->
+            <label for="callType">Call Type:</label>
+            <select id="callType" name="callType">
+                <option value="">Select Call Type</option>
+                {% for type in call_types %}
+                    <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+            </select>
+
+            <!-- Date-Time Range Inputs -->
+            <label for="fromDateTime">From Date-Time:</label>
+            <input type="datetime-local" id="fromDateTime" name="fromDateTime">
+
+            <label for="toDateTime">To Date-Time:</label>
+            <input type="datetime-local" id="toDateTime" name="toDateTime">
+
+            <!-- Search Button -->
+            <button type="button" onclick="searchLogs()"  class="styled-button">Search</button>
+            <button type="button" onclick="downloadLogs()"  class="styled-button">Download as Excel</button>
+        </form>
+
+        <!-- Search Results Table -->
+        <div class="table-container">
+            <table id="resultsTable" class="styled-table">
+                <thead>
+                    <tr>
+                        <th>Room </th>
+                        <th>Bed </th>
+                        <th>Ward</th>
+                        <th>Status</th>
+                        <th>Call Type</th>
+                        <th>Call Time</th>
+                        <th>Served Time</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody">
+                    <!-- Results will be inserted here dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer>
+        <p>Last updated: <span id="lastUpdated"></span></p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

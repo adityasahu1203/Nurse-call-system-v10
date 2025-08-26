@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - System Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Intelligent Nurse Call System (iNCMS-R9) - Settings</h1>
+            <div class="menu-icon" onclick="toggleMenu()">
+                <img src="{{ url_for('static', filename='images/menu.png') }}" alt="Menu Icon">
+            </div>
+        </div>
+        <div id="menu-container" class="menu-container">
+            <div class="menu-content">
+                <div class="menu-header">
+                    <img src="{{ url_for('static', filename='images/user.jpeg') }}" alt="User Icon" class="user-icon">
+                    <span>Welcome, {{ username }}</span>
+                </div>
+                <hr>
+                <a href="{{ url_for('home') }}" class="menu-item">Home</a>
+                <a href="{{ url_for('report') }}" class="menu-item">Reports</a>
+                <a href="{{ url_for('status') }}" class="menu-item">Status</a>
+                <a href="{{ url_for('settings') }}" class="menu-item">Settings</a>
+                <a href="{{ url_for('about') }}" class="menu-item">About Us</a>
+                <hr>
+                <button id="logoutButton" class="logout-button" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <h2>System Details</h2>
+        <table id="systemdetails-table" class="styled-table">
+            <tr>
+                <th>ORG. NAME</th>
+                <th>WARD</th>
+                <th>BAUD-RATE</th>
+                <th>STORAGE</th>
+                <th>SERVER IP</th>
+                <th>TOTAL BED</th>
+                <th>EMG. TIME</th>
+                <th>TERMINAL IP</th>
+            </tr>
+            {% for row in system_detail %}
+            <tr data-id="{{ row.id }}">
+                <td contenteditable="true">{{ row.HOSPITAL_NAME }}</td>
+                <td contenteditable="true">{{ row.WARD }}</td>
+                <td contenteditable="true">{{ row.BAUDRATE }}</td>
+                <td contenteditable="true">{{ row.RECORD_KEEP_DAYS }}</td>
+                <td contenteditable="true">{{ row.CENTRALSERVER }}</td>
+                <td contenteditable="true">{{ row.MAXROOM }}</td>
+                <td contenteditable="true">{{ row.DELAY }}</td>
+                <td contenteditable="true">{{ row.LOCALIP }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="button-container">
+            <button onclick="saveChanges()" class="styled-button">Save Changes</button>
+        </div>
+    </section>
+
+    <section>
+        <h2>Room and Bed Details</h2>
+        <div class="button-container">
+            <button onclick="openAddBedForm()" class="styled-button">Add Bed</button>
+            <button onclick="editSelectedBed()" class="styled-button">Edit Bed</button>
+            <button onclick="deleteSelectedBeds()" class="styled-button">Delete Selected Beds</button>
+        </div>
+        <table id="bed_details-table" class="styled-table">
+            <tr>
+                <th>Select</th>
+                <th>UNIT ID</th>
+                <th>IP ADDRESS</th>
+                <th>ROOM NUMBER</th>
+                <th>BED NUMBER</th>
+                <th>UNIT TYPE</th>
+            </tr>
+            {% for row in bed_details %}
+            <tr data-id="{{ row.BEDID }}">
+                <td><input type="checkbox" class="bed-select-checkbox"></td>
+                <td>{{ row.BEDID }}</td>
+                <td contenteditable="true">{{ row.IP_ADDRESS }}</td>
+                <td contenteditable="true">{{ row.ROOM_NO }}</td>
+                <td contenteditable="true">{{ row.BED_NO }}</td>
+                <td>
+                    <select>
+                        <option value="bed" {% if row.BED_TYPE == "bed" %}selected{% endif %}>Bed</option>
+                        <option value="room" {% if row.BED_TYPE == "room" %}selected{% endif %}>Room</option>
+                        <option value="toilet" {% if row.BED_TYPE == "toilet" %}selected{% endif %}>Toilet</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </section>
+
+    <!-- Modal for Adding New Bed -->
+    <div id="addBedModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddBedForm()">&times;</span>
+            <h3>Add New Bed</h3>
+            <form id="addBedForm">
+                <label for="bedID">Bed ID:</label>
+                <input type="text" id="bedID" readonly>
+
+                <label for="ipAddress">IP Address:</label>
+                <input type="text" id="ipAddress" required>
+
+                <label for="roomNo">Room Number:</label>
+                <input type="text" id="roomNo" required>
+
+                <label for="bedNo">Bed Number:</label>
+                <input type="text" id="bedNo" required>
+
+                <label for="bedType">Bed Type:</label>
+                <select id="bedType" required>
+                    <option value="bed">Bed</option>
+                    <option value="room">Room</option>
+                    <option value="toilet">Toilet</option>
+                </select>
+
+                <button type="button" onclick="submitAddBed()" class="button-primary">Save Bed</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

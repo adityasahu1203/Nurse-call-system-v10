@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurse Call System - Active Calls</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1> Intelligent Nurse Call System(iNCMS-R9) - Active Calls</h1>
+            <button id="loginButton" class="login-button">Login</button>
+        </div>
+    </header>
+
+    <main>
+        <table id="activeCallsTable" class="activeCallsTable">
+            <thead>
+                <tr>
+                    <th>Ward</th>
+                    <th>Room No</th>
+                    <th>Bed No</th>
+                    <th>Call Type</th>
+                    <th>Call Time</th>
+                    <th>Attend</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>Last updated: <span id="lastUpdated"></span></p>
+    </footer>
+
+    <!-- Flash Messages Container -->
+    <div id="flashMessages" class="flash-messages-container"></div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+                <div id="login-error" style="color: red;"></div> <!-- Error message container -->
+                <p id="authMessage"></p>
+                <a href="#">Forgot Password?</a>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

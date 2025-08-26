@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <!-- Flex container for title and icon -->
+        <div class="header-content">
+            <h1>Intelligent Nurse Call System(iNCMS-R9) - Home</h1>
+            <!-- Menu Icon -->
+            <div class="menu-icon" onclick="toggleMenu()">
+                <img src="{{ url_for('static', filename='images/menu.png') }}" alt="Menu Icon">
+            </div>
+        </div>
+
+        <!-- Menu Container -->
+        <div id="menu-container" class="menu-container">
+            <div class="menu-content">
+                <div class="menu-header">
+                    <img src="{{ url_for('static', filename='images/user.jpeg') }}" alt="User Icon" class="user-icon">
+                    <span>Welcome, {{ username }}</span>
+                </div>
+                <hr>
+                <a href="{{ url_for('home') }}" class="menu-item">Home</a>
+                <a href="{{ url_for('report') }}" class="menu-item">Reports</a>
+                <a href="{{ url_for('status') }}" class="menu-item">Status</a>
+                <a href="{{ url_for('settings') }}" class="menu-item">Settings</a>
+                <a href="{{ url_for('about') }}" class="menu-item">About Us</a>
+                <hr>
+                 <button id="logoutButton" class="logout-button" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <table id="activeCallsTable" class="activeCallsTable">
+            <thead>
+                <tr>
+                    <th>Ward</th>
+                    <th>Room No</th>
+                    <th>Bed No</th>
+                    <th>Call Type</th>
+                    <th>Call Time</th>
+                    <th>Attend</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+
+    <footer>
+        <p>Last updated: <span id="lastUpdated"></span></p>
+    </footer>
+
+    <!-- Make sure to add defer to ensure script loads after DOM parsing -->
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</body>
+</html>
